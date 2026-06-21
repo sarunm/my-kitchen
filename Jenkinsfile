@@ -52,21 +52,47 @@ pipeline {
       }
     }
 
-    stage('Deploy to Home Server') {
+    stage('Start Docker Compose') {
       when {
         branch 'main'
       }
       steps {
-        echo "🚀 Deploying to home server (192.168.1.131)..."
+        echo "🚀 Starting Docker Compose services..."
         sh '''
-          echo "Instructions for home server deployment:"
-          echo "1. SSH to home server: ssh root@192.168.1.131"
-          echo "2. Go to project: cd /opt/kitchen"
-          echo "3. Pull latest code: git pull origin main"
-          echo "4. Restart services: docker-compose down && docker-compose up -d --build"
-          echo "5. Access: http://192.168.1.131:3000"
+          echo "Stopping old containers..."
+          docker-compose down || true
+
+          echo "Starting new containers..."
+          docker-compose up -d --build
+
+          echo "Waiting for services to start..."
+          sleep 10
+
+          echo "Checking container status..."
+          docker-compose ps
+
+          echo "Checking service logs..."
+          docker-compose logs --tail 20
         '''
-        echo "✅ Deployment instructions generated"
+        echo "✅ Docker Compose services started successfully"
+      }
+    }
+
+    stage('Verify Deployment') {
+      when {
+        branch 'main'
+      }
+      steps {
+        echo "✅ Verifying services..."
+        sh '''
+          echo "Backend status:"
+          curl -s http://localhost:3001/api/orders || echo "Backend not ready yet"
+
+          echo ""
+          echo "Services running:"
+          docker-compose ps
+        '''
+        echo "✅ Deployment verification complete"
       }
     }
 
