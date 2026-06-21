@@ -23,11 +23,15 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
     try {
       setLoading(true);
       setError(null);
+      console.log('Creating order:', { carrier, number: parseInt(number) });
       await orderApi.createOrder(carrier, parseInt(number));
+      console.log('Order created successfully');
       setNumber('');
       onOrderCreated();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create order');
+      const errorMsg = err instanceof Error ? err.message : 'Failed to create order';
+      console.error('Order creation failed:', errorMsg);
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }

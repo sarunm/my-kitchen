@@ -3,11 +3,11 @@
 import { useOrders } from '@/hooks/useOrders';
 import { OrderInput } from '@/components/OrderInput';
 import { OrderList } from '@/components/OrderList';
+import { useMemo } from 'react';
 
 export default function ManageOrderPage() {
-  const { orders, loading, error, refetch } = useOrders({
-    dateOnly: true,
-  });
+  const params = useMemo(() => ({ dateOnly: true }), []);
+  const { orders, loading, error, refetch } = useOrders(params);
 
   return (
     <div className="page-container">

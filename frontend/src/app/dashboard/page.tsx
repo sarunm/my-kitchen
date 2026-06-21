@@ -2,12 +2,11 @@
 
 import { useOrders } from '@/hooks/useOrders';
 import { OrderList } from '@/components/OrderList';
+import { useMemo } from 'react';
 
 export default function DashboardPage() {
-  const { orders, loading, error, refetch } = useOrders({
-    excludeStatus: 'cancelled',
-    limit: 5,
-  });
+  const params = useMemo(() => ({ excludeStatus: 'cancelled', limit: 5 }), []);
+  const { orders, loading, error, refetch } = useOrders(params);
 
   return (
     <div className="page-container">
