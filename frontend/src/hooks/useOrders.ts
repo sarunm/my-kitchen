@@ -26,12 +26,12 @@ export function useOrders(params?: {
       setOrders(response.data);
       setTotal(response.total);
       setError(null);
-      if (!hasInitialized.current) {
-        setLoading(false);
-        hasInitialized.current = true;
-      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      const errorMsg = err instanceof Error ? err.message : 'Failed to fetch orders';
+      console.error('useOrders error:', errorMsg);
+      setError(errorMsg);
+      setOrders([]);
+    } finally {
       if (!hasInitialized.current) {
         setLoading(false);
         hasInitialized.current = true;
