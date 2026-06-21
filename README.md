@@ -1,6 +1,9 @@
 # Kitchen Order Tracker
 
-Multi-device order tracking app for food delivery services (Grab, Line-Man, Shopee).
+🍲 **ลองแล แกงใต้** - Multi-device order tracking app for food delivery services (Grab, Line-Man, Shopee).
+
+**Version:** 1.0.0  
+**Status:** ✅ Production Ready
 
 ## Deployments
 
