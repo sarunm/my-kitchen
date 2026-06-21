@@ -8,8 +8,14 @@
 ## Deployments
 
 - **Home Server (192.168.1.131)**: Docker Compose (Next.js + NestJS + PostgreSQL)
+  - Frontend: http://192.168.1.131:3000
+  - Backend API: http://192.168.1.131:3001
+  - Database: PostgreSQL on port 5432
+
 - **iPad 6**: PWA via Next.js at http://192.168.1.131:3000
-- **Raspberry Pi 4**: Lightweight Express.js dashboard
+  - Just open browser and add to home screen
+
+- **Raspberry Pi 4**: Lightweight Express.js dashboard at port 3002
 
 ## Architecture
 
