@@ -3,20 +3,20 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateCol
 @Entity('orders')
 export class OrderTypeOrmEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column('char', { length: 1 })
-  carrier: string;
+  carrier!: string;
 
   @Column('int')
-  number: number;
+  number!: number;
 
   @Column('varchar', { length: 20, default: 'active' })
-  status: string;
+  status!: string;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

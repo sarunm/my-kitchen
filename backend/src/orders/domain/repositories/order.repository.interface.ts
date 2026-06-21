@@ -1,14 +1,14 @@
 import { Order } from '../entities/order.entity';
 
-export interface IOrderRepository {
-  save(order: Order): Promise<Order>;
-  findById(id: number): Promise<Order | null>;
-  findAll(filters?: {
+export abstract class IOrderRepository {
+  abstract save(order: Order): Promise<Order>;
+  abstract findById(id: number): Promise<Order | null>;
+  abstract findAll(filters?: {
     status?: string;
     dateOnly?: boolean;
     limit?: number;
     offset?: number;
   }): Promise<{ data: Order[]; total: number }>;
-  update(id: number, order: Order): Promise<Order>;
-  delete(id: number): Promise<void>;
+  abstract update(id: number, order: Order): Promise<Order>;
+  abstract delete(id: number): Promise<void>;
 }

@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = parseInt(process.env.PORT || '3002', 10);
 const API_URL = process.env.API_URL || 'http://192.168.1.131:3001';
 
 app.use(express.static('public'));

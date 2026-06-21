@@ -18,7 +18,8 @@ export class OrderService {
       const order = Order.create(carrier, number);
       return await this.repository.save(order);
     } catch (error) {
-      throw new BadRequestException(`Invalid order input: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new BadRequestException(`Invalid order input: ${message}`);
     }
   }
 
@@ -45,7 +46,8 @@ export class OrderService {
       }
       return await this.repository.update(id, order);
     } catch (error) {
-      throw new BadRequestException(`Cannot update order: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new BadRequestException(`Cannot update order: ${message}`);
     }
   }
 }
