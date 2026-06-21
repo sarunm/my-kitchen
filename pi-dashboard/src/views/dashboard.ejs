@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitchen Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🍽️ Kitchen Dashboard</h1>
+      <p class="status">Live Updates Every 3 Seconds</p>
+    </header>
+
+    <div class="dashboard">
+      <div class="stats">
+        <div class="stat-box">
+          <h3>Active</h3>
+          <p id="active-count" class="count">0</p>
+        </div>
+        <div class="stat-box">
+          <h3>Completed</h3>
+          <p id="done-count" class="count">0</p>
+        </div>
+        <div class="stat-box">
+          <h3>Total</h3>
+          <p id="total-count" class="count">0</p>
+        </div>
+      </div>
+
+      <div class="orders-section">
+        <h2>Recent Orders</h2>
+        <div id="orders-container" class="orders-container">
+          <p class="loading">Loading...</p>
+        </div>
+      </div>
+
+      <footer>
+        <p id="last-update">Last updated: -</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '<%= apiUrl %>';
+
+    async function fetchOrders() {
+      try {
+        const response = await fetch(`${API_URL}/api/orders?excludeStatus=cancelled&limit=5`);
+        const data = await response.json();
+        updateDashboard(data.data);
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+        document.getElementById('orders-container').innerHTML = '<p class="error">Failed to load orders</p>';
+      }
+    }
+
+    function updateDashboard(orders) {
+      // Update counts
+      const active = orders.filter(o => o.status === 'active').length;
+      const done = orders.filter(o => o.status === 'done').length;
+      document.getElementById('active-count').textContent = active;
+      document.getElementById('done-count').textContent = done;
+      document.getElementById('total-count').textContent = orders.length;
+
+      // Update orders display
+      if (orders.length === 0) {
+        document.getElementById('orders-container').innerHTML = '<p class="empty">No orders</p>';
+        return;
+      }
+
+      const ordersHtml = orders.map(order => `
+        <div class="order-card status-${order.status}">
+          <div class="order-header">
+            <h3>${order.carrier}-${String(order.number).padStart(4, '0')}</h3>
+            <span class="badge">${order.status}</span>
+          </div>
+          <p class="time">${new Date(order.createdAt).toLocaleString()}</p>
+        </div>
+      `).join('');
+
+      document.getElementById('orders-container').innerHTML = ordersHtml;
+      document.getElementById('last-update').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+    }
+
+    // Initial fetch
+    fetchOrders();
+    // Fetch every 3 seconds
+    setInterval(fetchOrders, 3000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+'use client';
+
+import { useOrders } from '@/hooks/useOrders';
+import { OrderList } from '@/components/OrderList';
+
+export default function DashboardPage() {
+  const { orders, loading, error, refetch } = useOrders({
+    excludeStatus: 'cancelled',
+    limit: 5,
+  });
+
+  return (
+    <div className="page-container">
+      <h2>Dashboard</h2>
+      <p className="dashboard-subtitle">
+        Live view of active and completed orders (auto-refreshes every 3 seconds)
+      </p>
+
+      <section className="dashboard-section">
+        <div className="dashboard-stats">
+          <div className="stat-card">
+            <h4>Total Orders</h4>
+            <p className="stat-value">{orders.length}</p>
+          </div>
+          <div className="stat-card">
+            <h4>Active</h4>
+            <p className="stat-value">
+              {orders.filter((o) => o.status === 'active').length}
+            </p>
+          </div>
+          <div className="stat-card">
+            <h4>Completed</h4>
+            <p className="stat-value">
+              {orders.filter((o) => o.status === 'done').length}
+            </p>
+          </div>
+        </div>
+
+        <div className="dashboard-orders">
+          {loading && <div className="loading">Loading orders...</div>}
+          {error && <div className="error">Error: {error}</div>}
+          {!loading && (
+            <>
+              <OrderList orders={orders} onOrdersChange={refetch} readOnly={true} />
+              <p className="dashboard-footer">Last updated: {new Date().toLocaleTimeString()}</p>
+            </>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}

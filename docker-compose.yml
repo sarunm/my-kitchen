@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: kitchen-postgres
+    environment:
+      POSTGRES_USER: kitchen_user
+      POSTGRES_PASSWORD: kitchen_pass
+      POSTGRES_DB: kitchen_orders
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kitchen_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - kitchen-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kitchen-backend
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: kitchen_user
+      DB_PASSWORD: kitchen_pass
+      DB_NAME: kitchen_orders
+      NODE_ENV: production
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - kitchen-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: kitchen-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://192.168.1.131:3001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - kitchen-network
+
+volumes:
+  postgres_data:
+
+networks:
+  kitchen-network:
+    driver: bridge
