@@ -3,6 +3,7 @@
 import { Order } from '@/types/order';
 import { orderApi } from '@/services/api';
 import { useState } from 'react';
+import { OrderModal } from './OrderModal';
 
 interface OrderItemProps {
   order: Order;
@@ -11,17 +12,14 @@ interface OrderItemProps {
 }
 
 export function OrderItem({ order, onStatusChange, readOnly = false }: OrderItemProps) {
-  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const handleStatusChange = async (status: 'done' | 'cancelled') => {
+  const handleStatusChange = async (id: number, status: 'done' | 'cancelled') => {
     try {
-      setLoading(true);
-      await orderApi.updateOrderStatus(order.id, status);
+      await orderApi.updateOrderStatus(id, status);
       onStatusChange();
     } catch (err) {
       console.error('Failed to update order:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -32,38 +30,35 @@ export function OrderItem({ order, onStatusChange, readOnly = false }: OrderItem
   }[order.status];
 
   return (
-    <div className="order-item" style={{ borderLeftColor: statusColor }}>
-      <div className="order-header">
-        <h3>
-          {order.carrier}-{String(order.number).padStart(4, '0')}
-        </h3>
-        <span className="status-badge" style={{ backgroundColor: statusColor }}>
-          {order.status}
-        </span>
-      </div>
+    <>
+      <div
+        className={`order-item ${!readOnly ? 'clickable' : ''}`}
+        style={{ borderLeftColor: statusColor }}
+        onClick={() => !readOnly && setShowModal(true)}
+      >
+        <div className="order-header">
+          <h3>
+            {order.carrier}-{String(order.number).padStart(4, '0')}
+          </h3>
+          <span className="status-badge" style={{ backgroundColor: statusColor }}>
+            {order.status}
+          </span>
+        </div>
 
-      <div className="order-time">
-        {new Date(order.createdAt).toLocaleString()}
+        <div className="order-time">
+          {new Date(order.createdAt).toLocaleString()}
+        </div>
+
+        {!readOnly && <div className="order-hint">👆 Tap to change status</div>}
       </div>
 
       {!readOnly && (
-        <div className="order-actions">
-          <button
-            onClick={() => handleStatusChange('done')}
-            disabled={loading || order.status !== 'active'}
-            className="btn-done"
-          >
-            Done
-          </button>
-          <button
-            onClick={() => handleStatusChange('cancelled')}
-            disabled={loading || order.status !== 'active'}
-            className="btn-cancel"
-          >
-            Cancel
-          </button>
-        </div>
+        <OrderModal
+          order={showModal ? order : null}
+          onClose={() => setShowModal(false)}
+          onStatusChange={handleStatusChange}
+        />
       )}
-    </div>
+    </>
   );
 }

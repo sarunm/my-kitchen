@@ -238,6 +238,113 @@ button:disabled {
   margin-bottom: 0.75rem;
 }
 
+.order-item.clickable {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.order-item.clickable:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.order-hint {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: white;
+  width: 100%;
+  border-radius: 16px 16px 0 0;
+  padding: 1.5rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+}
+
+.modal-body {
+  margin-bottom: 1.5rem;
+}
+
+.order-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.detail-value.status-badge {
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .order-actions {
   display: flex;
   gap: 0.5rem;
@@ -245,14 +352,21 @@ button:disabled {
 }
 
 .btn-done,
-.btn-cancel {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  flex: 1;
+.btn-cancel,
+.btn-close {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
 }
 
 .btn-done {
   background: #4caf50;
+  color: white;
+  flex: 1;
 }
 
 .btn-done:hover:not(:disabled) {
@@ -261,10 +375,28 @@ button:disabled {
 
 .btn-cancel {
   background: #f44336;
+  color: white;
+  flex: 1;
 }
 
 .btn-cancel:hover:not(:disabled) {
   background: #da190b;
+}
+
+.btn-close {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn-close:hover:not(:disabled) {
+  background: #d0d0d0;
+}
+
+.btn-done:disabled,
+.btn-cancel:disabled,
+.btn-close:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Order List Styling */
@@ -356,6 +488,21 @@ button:disabled {
   border-top: 1px solid #eee;
 }
 
+/* Desktop Modal */
+@media (min-width: 769px) {
+  .modal-overlay {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 400px;
+    border-radius: 12px;
+    max-height: 90vh;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .navbar-container {
@@ -391,5 +538,28 @@ button:disabled {
   .input-section,
   .list-section {
     padding: 1rem;
+  }
+
+  .modal-content {
+    padding: 1rem;
+  }
+
+  .modal-header {
+    margin-bottom: 1rem;
+  }
+
+  .modal-body {
+    margin-bottom: 1rem;
+  }
+
+  .modal-actions {
+    gap: 0.5rem;
+  }
+
+  .btn-done,
+  .btn-cancel,
+  .btn-close {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
   }
 }
