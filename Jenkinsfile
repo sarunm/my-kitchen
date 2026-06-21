@@ -64,19 +64,19 @@ pipeline {
         echo "🚀 Starting Docker Compose services..."
         sh '''
           echo "Stopping old containers..."
-          docker-compose down || true
+          docker compose down || true
 
           echo "Starting new containers..."
-          docker-compose up -d --build
+          docker compose up -d --build
 
           echo "Waiting for services to start..."
           sleep 10
 
           echo "Checking container status..."
-          docker-compose ps
+          docker compose ps
 
           echo "Checking service logs..."
-          docker-compose logs --tail 20
+          docker compose logs --tail 20
         '''
         echo "✅ Docker Compose services started successfully"
       }
@@ -96,7 +96,7 @@ pipeline {
 
           echo ""
           echo "Services running:"
-          docker-compose ps
+          docker compose ps
         '''
         echo "✅ Deployment verification complete"
       }
