@@ -17,7 +17,12 @@ export function useOrders(params?: {
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await orderApi.getOrders(params);
+      const response = await orderApi.getOrders({
+        dateOnly: params?.dateOnly,
+        excludeStatus: params?.excludeStatus,
+        limit: params?.limit,
+        offset: params?.offset,
+      });
       setOrders(response.data);
       setTotal(response.total);
       setError(null);
@@ -26,7 +31,7 @@ export function useOrders(params?: {
     } finally {
       setLoading(false);
     }
-  }, [params]);
+  }, [params?.dateOnly, params?.excludeStatus, params?.limit, params?.offset]);
 
   useEffect(() => {
     fetchOrders();
