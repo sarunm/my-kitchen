@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Order, GetOrdersResponse } from '@/types/order';
 import { orderApi } from '@/services/api';
 
@@ -13,10 +13,10 @@ export function useOrders(params?: {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasInitialized = useRef(false);
 
   const fetchOrders = useCallback(async () => {
     try {
-      setLoading(true);
       const response = await orderApi.getOrders({
         dateOnly: params?.dateOnly,
         excludeStatus: params?.excludeStatus,
@@ -26,10 +26,16 @@ export function useOrders(params?: {
       setOrders(response.data);
       setTotal(response.total);
       setError(null);
+      if (!hasInitialized.current) {
+        setLoading(false);
+        hasInitialized.current = true;
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
-    } finally {
-      setLoading(false);
+      if (!hasInitialized.current) {
+        setLoading(false);
+        hasInitialized.current = true;
+      }
     }
   }, [params?.dateOnly, params?.excludeStatus, params?.limit, params?.offset]);
 
