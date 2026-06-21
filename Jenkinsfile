@@ -34,7 +34,9 @@ pipeline {
 
     stage('Build Docker Images') {
       when {
-        branch 'main'
+        expression {
+          env.GIT_BRANCH == 'origin/main'
+        }
       }
       steps {
         echo "🐳 Building Docker images..."
@@ -54,7 +56,9 @@ pipeline {
 
     stage('Start Docker Compose') {
       when {
-        branch 'main'
+        expression {
+          env.GIT_BRANCH == 'origin/main'
+        }
       }
       steps {
         echo "🚀 Starting Docker Compose services..."
@@ -80,7 +84,9 @@ pipeline {
 
     stage('Verify Deployment') {
       when {
-        branch 'main'
+        expression {
+          env.GIT_BRANCH == 'origin/main'
+        }
       }
       steps {
         echo "✅ Verifying services..."
