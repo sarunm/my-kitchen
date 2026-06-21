@@ -77,7 +77,7 @@ pipeline {
         echo "═══════════════════════════════════════════════"
         echo "📊 Project: Kitchen Order Tracker"
         echo "🌿 Branch: main"
-        echo "📅 Timestamp: ${BUILD_TIMESTAMP}"
+        echo "📅 Build #: ${BUILD_NUMBER}"
         echo ""
         echo "🔗 Access Points:"
         echo "   Frontend: http://192.168.1.131:3000"
