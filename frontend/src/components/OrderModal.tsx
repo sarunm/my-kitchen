@@ -19,6 +19,11 @@ export function OrderModal({ order, onClose, onStatusChange }: OrderModalProps) 
     return map[carrier] || carrier;
   };
 
+  const getStatusLabel = (status: string) => {
+    const map: { [key: string]: string } = { active: 'กำลังทำ', done: 'เสร็จ', cancelled: 'ยกเลิก' };
+    return map[status] ?? status;
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'done':
@@ -60,7 +65,7 @@ export function OrderModal({ order, onClose, onStatusChange }: OrderModalProps) 
               className="detail-value status-badge"
               style={{ backgroundColor: getStatusColor(order.status) }}
             >
-              {order.status}
+              {getStatusLabel(order.status)}
             </span>
           </div>
 
@@ -80,20 +85,20 @@ export function OrderModal({ order, onClose, onStatusChange }: OrderModalProps) 
                 onClick={() => handleStatusChange('done')}
                 disabled={loading}
               >
-                ✓ Done
+                ✓ เสร็จ
               </button>
               <button
                 className="btn-cancel"
                 onClick={() => handleStatusChange('cancelled')}
                 disabled={loading}
               >
-                ✕ Cancel
+                ✕ ยกเลิก
               </button>
             </>
           )}
           {order.status !== 'active' && (
             <button className="btn-close" onClick={onClose}>
-              Close
+              ปิด
             </button>
           )}
         </div>

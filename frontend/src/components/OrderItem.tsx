@@ -29,6 +29,12 @@ export function OrderItem({ order, onStatusChange, readOnly = false }: OrderItem
     cancelled: '#f44336',
   }[order.status];
 
+  const statusLabel = {
+    active: 'กำลังทำ',
+    done: 'เสร็จ',
+    cancelled: 'ยกเลิก',
+  }[order.status] ?? order.status;
+
   return (
     <>
       <div
@@ -41,7 +47,7 @@ export function OrderItem({ order, onStatusChange, readOnly = false }: OrderItem
             {order.carrier}-{String(order.number).padStart(4, '0')}
           </h3>
           <span className="status-badge" style={{ backgroundColor: statusColor }}>
-            {order.status}
+            {statusLabel}
           </span>
         </div>
 

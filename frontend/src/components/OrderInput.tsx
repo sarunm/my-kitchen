@@ -69,24 +69,46 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
         </div>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="number">Order Number (0-9999)</label>
-        <input
-          id="number"
-          type="number"
-          min="0"
-          max="9999"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          disabled={loading}
-          placeholder="Enter order number"
-          autoFocus
-        />
+      <div className="numpad-display">
+        {number ? number : <span className="numpad-placeholder">กรอกหมายเลข</span>}
       </div>
 
-      <button type="submit" disabled={loading || !number}>
-        {loading ? 'Creating...' : 'Add Order'}
-      </button>
+      <div className="numpad">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
+          <button
+            key={d}
+            type="button"
+            className="numpad-btn"
+            onClick={() => setNumber((n) => (n + d).slice(0, 4))}
+            disabled={loading}
+          >
+            {d}
+          </button>
+        ))}
+        <button
+          type="button"
+          className="numpad-btn backspace"
+          onClick={() => setNumber((n) => n.slice(0, -1))}
+          disabled={loading || !number}
+        >
+          ⌫
+        </button>
+        <button
+          type="button"
+          className="numpad-btn"
+          onClick={() => setNumber((n) => (n + '0').slice(0, 4))}
+          disabled={loading}
+        >
+          0
+        </button>
+        <button
+          type="submit"
+          className="numpad-btn submit"
+          disabled={loading || !number}
+        >
+          {loading ? '…' : '✓'}
+        </button>
+      </div>
 
       {error && <div className="error">{error}</div>}
     </form>
