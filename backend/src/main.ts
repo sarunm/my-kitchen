@@ -4,9 +4,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS for iPad and Pi access
+  // Enable CORS for all origins. This is a LAN-only kitchen app accessed from
+  // multiple devices (iPad, mobile, Pi) and hosts (dev machine, home server),
+  // so we reflect whatever origin makes the request instead of hardcoding IPs.
   app.enableCors({
-    origin: ['http://192.168.1.131:3000', 'http://192.168.1.131:3002'],
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

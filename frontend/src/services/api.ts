@@ -1,6 +1,12 @@
 import { Order, GetOrdersResponse } from '@/types/order';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+// Derive the backend URL from the host the browser is currently on.
+// This makes the same build work on any machine (dev, home server) and any
+// device (desktop, mobile) without hardcoding an IP at build time.
+const API_URL =
+  typeof window !== 'undefined'
+    ? `http://${window.location.hostname}:3001`
+    : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export const orderApi = {
   createOrder: async (carrier: string, number: number): Promise<Order> => {
