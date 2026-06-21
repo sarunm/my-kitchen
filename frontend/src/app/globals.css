@@ -60,6 +60,29 @@ body {
   margin: 0 auto;
 }
 
+.restaurant-header {
+  background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.restaurant-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: bold;
+}
+
+.restaurant-tagline {
+  margin: 0;
+  font-size: 1rem;
+  opacity: 0.95;
+  letter-spacing: 1px;
+}
+
 .page-container h2 {
   margin-bottom: 1rem;
   font-size: 2rem;

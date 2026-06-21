@@ -19,6 +19,10 @@ export default function ManageOrderPage() {
 
   return (
     <div className="page-container">
+      <div className="restaurant-header">
+        <h1>🍲 ลองแล แกงใต้</h1>
+        <p className="restaurant-tagline">Kitchen Order Management System</p>
+      </div>
       <h2>Manage Orders</h2>
 
       <section className="input-section">

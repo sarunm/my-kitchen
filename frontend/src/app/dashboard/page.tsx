@@ -11,6 +11,10 @@ export default function DashboardPage() {
 
   return (
     <div className="page-container">
+      <div className="restaurant-header">
+        <h1>🍲 ลองแล แกงใต้</h1>
+        <p className="restaurant-tagline">Kitchen Order Management System</p>
+      </div>
       <h2>Dashboard</h2>
       <p className="dashboard-subtitle">
         Live view of active and completed orders (auto-refreshes every 3 seconds)
