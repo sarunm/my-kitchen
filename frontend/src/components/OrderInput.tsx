@@ -36,21 +36,37 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
   return (
     <form onSubmit={handleSubmit} className="order-input">
       <div className="form-group">
-        <label htmlFor="carrier">Carrier</label>
-        <select
-          id="carrier"
-          value={carrier}
-          onChange={(e) => setCarrier(e.target.value as 'G' | 'L' | 'S')}
-          disabled={loading}
-        >
-          <option value="G">Grab (G)</option>
-          <option value="L">Line-Man (L)</option>
-          <option value="S">Shopee (S)</option>
-        </select>
+        <label>Select Carrier</label>
+        <div className="carrier-buttons">
+          <button
+            type="button"
+            className={`carrier-btn ${carrier === 'G' ? 'active' : ''}`}
+            onClick={() => setCarrier('G')}
+            disabled={loading}
+          >
+            🚗 Grab
+          </button>
+          <button
+            type="button"
+            className={`carrier-btn ${carrier === 'L' ? 'active' : ''}`}
+            onClick={() => setCarrier('L')}
+            disabled={loading}
+          >
+            📦 Line-Man
+          </button>
+          <button
+            type="button"
+            className={`carrier-btn ${carrier === 'S' ? 'active' : ''}`}
+            onClick={() => setCarrier('S')}
+            disabled={loading}
+          >
+            🛒 Shopee
+          </button>
+        </div>
       </div>
 
       <div className="form-group">
-        <label htmlFor="number">Order Number</label>
+        <label htmlFor="number">Order Number (0-9999)</label>
         <input
           id="number"
           type="number"
@@ -59,11 +75,12 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
           value={number}
           onChange={(e) => setNumber(e.target.value)}
           disabled={loading}
-          placeholder="0-9999"
+          placeholder="Enter order number"
+          autoFocus
         />
       </div>
 
-      <button type="submit" disabled={loading}>
+      <button type="submit" disabled={loading || !number}>
         {loading ? 'Creating...' : 'Add Order'}
       </button>
 

@@ -134,6 +134,40 @@ body {
   cursor: not-allowed;
 }
 
+.carrier-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carrier-btn {
+  flex: 1;
+  padding: 0.75rem;
+  background: white;
+  color: #333;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.carrier-btn:hover:not(:disabled) {
+  border-color: #1a1a1a;
+  background: #f0f0f0;
+}
+
+.carrier-btn.active {
+  background: #1a1a1a;
+  color: white;
+  border-color: #1a1a1a;
+}
+
+.carrier-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 button {
   padding: 0.75rem 1.5rem;
   background: #1a1a1a;
@@ -336,6 +370,10 @@ button:disabled {
 
   .order-input {
     grid-template-columns: 1fr;
+  }
+
+  .carrier-buttons {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .order-actions {
