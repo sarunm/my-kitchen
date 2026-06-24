@@ -1,230 +1,193 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #0f0f0f;
-  color: #fff;
-  height: 100vh;
-  overflow: hidden;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0f0f0f;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 header {
-  background: #1a1a1a;
-  padding: 1rem;
-  border-bottom: 2px solid #ffb700;
+    background: #1a1a1a;
+    padding: 1rem;
+    border-bottom: 2px solid #ffb700;
 }
 
 header h1 {
-  font-size: 1.8rem;
-  margin-bottom: 0.3rem;
-  color: #ffb700;
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+    color: #ffb700;
 }
 
 .restaurant-name {
-  font-size: 0.95rem;
-  color: #bbb;
-  margin: 0.3rem 0 0.5rem 0;
+    font-size: 0.95rem;
+    color: #bbb;
+    margin: 0.3rem 0 0.5rem 0;
 }
 
 .status {
-  font-size: 0.9rem;
-  color: #888;
+    font-size: 0.9rem;
+    color: #888;
 }
 
 .dashboard {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.stat-box {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1rem;
-  border-radius: 6px;
-  text-align: center;
-}
-
-.stat-box h3 {
-  font-size: 0.9rem;
-  opacity: 0.9;
-  margin-bottom: 0.5rem;
-}
-
-.count {
-  font-size: 2rem;
-  font-weight: bold;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
 .orders-section {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  background: #1a1a1a;
-  border-radius: 6px;
-  padding: 1rem;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 1rem;
 }
 
 .orders-section h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
 }
 
 .orders-container {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .order-card {
-  background: #2a2a2a;
-  padding: 1rem;
-  border-radius: 4px;
-  border-left: 4px solid #ffb700;
-  transition: transform 0.2s;
+    background: #2a2a2a;
+    padding: 1rem;
+    border-radius: 4px;
+    border-left: 4px solid #ffb700;
+    transition: transform 0.2s;
 }
 
 .order-card:hover {
-  transform: translateX(4px);
+    transform: translateX(4px);
 }
 
 .order-card.status-active {
-  border-left-color: #ffb700;
+    border-left-color: #ffb700;
 }
 
 .order-card.status-done {
-  border-left-color: #4caf50;
+    border-left-color: #4caf50;
 }
 
 .order-card.status-cancelled {
-  border-left-color: #f44336;
-  opacity: 0.7;
+    border-left-color: #f44336;
+    opacity: 0.7;
 }
 
 .order-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .order-header h3 {
-  font-size: 1.1rem;
+    font-size: 1.1rem;
 }
 
 .badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .order-card.status-active .badge {
-  background: #ffb700;
-  color: #000;
+    background: #ffb700;
+    color: #000;
 }
 
 .order-card.status-done .badge {
-  background: #4caf50;
+    background: #4caf50;
 }
 
 .order-card.status-cancelled .badge {
-  background: #f44336;
+    background: #f44336;
 }
 
 .time {
-  font-size: 0.85rem;
-  color: #888;
+    font-size: 0.85rem;
+    color: #888;
 }
 
 .loading,
 .empty,
 .error {
-  text-align: center;
-  padding: 2rem;
-  color: #666;
+    text-align: center;
+    padding: 2rem;
+    color: #666;
 }
 
 .error {
-  color: #f44336;
+    color: #f44336;
 }
 
 footer {
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.85rem;
-  color: #666;
-  border-top: 1px solid #333;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+    border-top: 1px solid #333;
 }
 
 /* Scrollbar styling */
 .orders-container::-webkit-scrollbar {
-  width: 6px;
+    width: 6px;
 }
 
 .orders-container::-webkit-scrollbar-track {
-  background: transparent;
+    background: transparent;
 }
 
 .orders-container::-webkit-scrollbar-thumb {
-  background: #444;
-  border-radius: 3px;
+    background: #444;
+    border-radius: 3px;
 }
 
 .orders-container::-webkit-scrollbar-thumb:hover {
-  background: #555;
+    background: #555;
 }
 
 /* Mobile responsive */
 @media (max-width: 600px) {
-  header h1 {
-    font-size: 1.3rem;
-  }
+    header h1 {
+        font-size: 1.3rem;
+    }
 
-  .stats {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
+    .orders-section {
+        padding: 0.75rem;
+    }
 
-  .stat-box {
-    padding: 0.75rem;
-  }
+    .order-card {
+        padding: 0.75rem;
+    }
 
-  .count {
-    font-size: 1.5rem;
-  }
-
-  .orders-section {
-    padding: 0.75rem;
-  }
-
-  .order-card {
-    padding: 0.75rem;
-  }
-
-  .order-header h3 {
-    font-size: 1rem;
-  }
+    .order-header h3 {
+        font-size: 1rem;
+    }
 }

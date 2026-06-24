@@ -15,23 +15,8 @@
     </header>
 
     <div class="dashboard">
-      <div class="stats">
-        <div class="stat-box">
-          <h3>Active</h3>
-          <p id="active-count" class="count">0</p>
-        </div>
-        <div class="stat-box">
-          <h3>Completed</h3>
-          <p id="done-count" class="count">0</p>
-        </div>
-        <div class="stat-box">
-          <h3>Total</h3>
-          <p id="total-count" class="count">0</p>
-        </div>
-      </div>
-
       <div class="orders-section">
-        <h2>Recent Orders</h2>
+        <h2>ออเดอร์วันนี้</h2>
         <div id="orders-container" class="orders-container">
           <p class="loading">Loading...</p>
         </div>
@@ -48,7 +33,7 @@
 
     async function fetchOrders() {
       try {
-        const response = await fetch(`${API_URL}/api/orders?excludeStatus=cancelled&limit=5`);
+        const response = await fetch(`${API_URL}/api/orders?dateOnly=true&excludeStatus=cancelled&limit=100`);
         const data = await response.json();
         updateDashboard(data.data);
       } catch (error) {
@@ -58,13 +43,6 @@
     }
 
     function updateDashboard(orders) {
-      // Update counts
-      const active = orders.filter(o => o.status === 'active').length;
-      const done = orders.filter(o => o.status === 'done').length;
-      document.getElementById('active-count').textContent = active;
-      document.getElementById('done-count').textContent = done;
-      document.getElementById('total-count').textContent = orders.length;
-
       // Update orders display
       if (orders.length === 0) {
         document.getElementById('orders-container').innerHTML = '<p class="empty">No orders</p>';
