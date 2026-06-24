@@ -31,6 +31,12 @@
   <script>
     const API_URL = '<%= apiUrl %>';
 
+    const CARRIERS = {
+      G: { name: 'Grab', logo: '/carriers/grab.png.webp' },
+      L: { name: 'Line-Man', logo: '/carriers/line-man.png' },
+      S: { name: 'Shopee', logo: '/carriers/Shopee.png' },
+    };
+
     async function fetchOrders() {
       try {
         const response = await fetch(`${API_URL}/api/orders?dateOnly=true&excludeStatus=cancelled&limit=100`);
@@ -49,15 +55,21 @@
         return;
       }
 
-      const ordersHtml = orders.map(order => `
+      const ordersHtml = orders.map(order => {
+        const carrier = CARRIERS[order.carrier] || { name: order.carrier, logo: '' };
+        const logo = carrier.logo
+          ? `<img class="carrier-logo" src="${carrier.logo}" alt="${carrier.name}">`
+          : '';
+        return `
         <div class="order-card status-${order.status}">
           <div class="order-header">
-            <h3>${order.carrier}-${String(order.number).padStart(4, '0')}</h3>
+            <h3>${logo}${order.carrier}-${String(order.number).padStart(4, '0')}</h3>
             <span class="badge">${order.status}</span>
           </div>
           <p class="time">${new Date(order.createdAt).toLocaleString()}</p>
         </div>
-      `).join('');
+      `;
+      }).join('');
 
       document.getElementById('orders-container').innerHTML = ordersHtml;
       document.getElementById('last-update').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;

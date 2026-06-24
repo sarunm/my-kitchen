@@ -107,6 +107,17 @@ header h1 {
 
 .order-header h3 {
     font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.order-header h3 .carrier-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: #fff;
 }
 
 .badge {

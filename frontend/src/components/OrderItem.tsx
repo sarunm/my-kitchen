@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { Order } from '@/types/order';
-import { orderApi } from '@/services/api';
-import { useState } from 'react';
-import { OrderModal } from './OrderModal';
+import { Order } from "@/types/order";
+import { orderApi } from "@/services/api";
+import { useState } from "react";
+import { OrderModal } from "./OrderModal";
+import { getCarrier } from "@/lib/carriers";
 
 interface OrderItemProps {
   order: Order;
@@ -11,42 +12,58 @@ interface OrderItemProps {
   readOnly?: boolean;
 }
 
-export function OrderItem({ order, onStatusChange, readOnly = false }: OrderItemProps) {
+export function OrderItem({
+  order,
+  onStatusChange,
+  readOnly = false,
+}: OrderItemProps) {
   const [showModal, setShowModal] = useState(false);
 
-  const handleStatusChange = async (id: number, status: 'done' | 'cancelled') => {
+  const handleStatusChange = async (
+    id: number,
+    status: "done" | "cancelled",
+  ) => {
     try {
       await orderApi.updateOrderStatus(id, status);
       onStatusChange();
     } catch (err) {
-      console.error('Failed to update order:', err);
+      console.error("Failed to update order:", err);
     }
   };
 
   const statusColor = {
-    active: '#ffb700',
-    done: '#4caf50',
-    cancelled: '#f44336',
+    active: "#ffb700",
+    done: "#4caf50",
+    cancelled: "#f44336",
   }[order.status];
 
-  const statusLabel = {
-    active: 'กำลังทำ',
-    done: 'เสร็จ',
-    cancelled: 'ยกเลิก',
-  }[order.status] ?? order.status;
+  const statusLabel =
+    {
+      active: "กำลังทำ",
+      done: "เสร็จ",
+      cancelled: "ยกเลิก",
+    }[order.status] ?? order.status;
 
   return (
     <>
       <div
-        className={`order-item ${!readOnly ? 'clickable' : ''}`}
+        className={`order-item ${!readOnly ? "clickable" : ""}`}
         style={{ borderLeftColor: statusColor }}
         onClick={() => !readOnly && setShowModal(true)}
       >
         <div className="order-header">
           <h3>
-            {order.carrier}-{String(order.number).padStart(4, '0')}
+            <img
+              className="carrier-logo"
+              src={getCarrier(order.carrier).logo}
+              alt={getCarrier(order.carrier).name}
+            />
+            {order.carrier}-{String(order.number).padStart(4, "0")}
           </h3>
-          <span className="status-badge" style={{ backgroundColor: statusColor }}>
+          <span
+            className="status-badge"
+            style={{ backgroundColor: statusColor }}
+          >
             {statusLabel}
           </span>
         </div>

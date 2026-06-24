@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import { useOrders } from '@/hooks/useOrders';
-import { OrderList } from '@/components/OrderList';
-import { useMemo } from 'react';
+import { useOrders } from "@/hooks/useOrders";
+import { OrderList } from "@/components/OrderList";
+import { useMemo } from "react";
 
 export default function DashboardPage() {
-  const params = useMemo(() => ({ excludeStatus: 'cancelled', limit: 5 }), []);
+  const params = useMemo(
+    () => ({ dateOnly: true, excludeStatus: "cancelled", limit: 100 }),
+    [],
+  );
   const { orders, loading, error, refetch } = useOrders(params);
 
   return (
@@ -16,36 +19,23 @@ export default function DashboardPage() {
       </div>
       <h2>Dashboard</h2>
       <p className="dashboard-subtitle">
-        Live view of active and completed orders (auto-refreshes every 3 seconds)
+        ออเดอร์วันนี้ (อัปเดตอัตโนมัติทุก 3 วินาที)
       </p>
 
       <section className="dashboard-section">
-        <div className="dashboard-stats">
-          <div className="stat-card">
-            <h4>Total Orders</h4>
-            <p className="stat-value">{orders.length}</p>
-          </div>
-          <div className="stat-card">
-            <h4>Active</h4>
-            <p className="stat-value">
-              {orders.filter((o) => o.status === 'active').length}
-            </p>
-          </div>
-          <div className="stat-card">
-            <h4>Completed</h4>
-            <p className="stat-value">
-              {orders.filter((o) => o.status === 'done').length}
-            </p>
-          </div>
-        </div>
-
         <div className="dashboard-orders">
           {loading && <div className="loading">Loading orders...</div>}
           {error && <div className="error">Error: {error}</div>}
           {!loading && (
             <>
-              <OrderList orders={orders} onOrdersChange={refetch} readOnly={true} />
-              <p className="dashboard-footer">Last updated: {new Date().toLocaleTimeString()}</p>
+              <OrderList
+                orders={orders}
+                onOrdersChange={refetch}
+                readOnly={true}
+              />
+              <p className="dashboard-footer">
+                Last updated: {new Date().toLocaleTimeString()}
+              </p>
             </>
           )}
         </div>
