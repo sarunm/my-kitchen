@@ -71,8 +71,6 @@ export function OrderItem({
         <div className="order-time">
           {new Date(order.createdAt).toLocaleString()}
         </div>
-
-        {!readOnly && <div className="order-hint">👆 Tap to change status</div>}
       </div>
 
       {!readOnly && (

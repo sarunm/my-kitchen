@@ -42,7 +42,6 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
   return (
     <form onSubmit={handleSubmit} className="order-input">
       <div className="form-group">
-        <label>Select Carrier</label>
         <div className="carrier-buttons">
           {(Object.keys(CARRIERS) as CarrierCode[]).map((code) => (
             <button
