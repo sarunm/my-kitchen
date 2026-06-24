@@ -82,6 +82,31 @@ pipeline {
       }
     }
 
+    stage('Run DB Migrations') {
+      when {
+        expression {
+          env.GIT_BRANCH == 'origin/main'
+        }
+      }
+      steps {
+        echo "🗄️ Applying database migrations..."
+        sh '''
+          echo "Waiting for postgres to be ready..."
+          for i in $(seq 1 30); do
+            docker exec kitchen-postgres pg_isready -U kitchen_user >/dev/null 2>&1 && break
+            sleep 2
+          done
+
+          echo "Applying migration scripts..."
+          for f in backend/scripts/migrations/*.sql; do
+            echo "-> applying $f"
+            docker exec -i kitchen-postgres psql -U kitchen_user -d kitchen_orders -f - < "$f"
+          done
+        '''
+        echo "✅ Database migrations applied"
+      }
+    }
+
     stage('Verify Deployment') {
       when {
         expression {

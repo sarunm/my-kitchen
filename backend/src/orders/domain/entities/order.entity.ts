@@ -1,6 +1,6 @@
-import { Carrier } from '../value-objects/carrier';
-import { OrderNumber } from '../value-objects/order-number';
-import { OrderStatus } from '../value-objects/order-status';
+import { Carrier } from "../value-objects/carrier";
+import { OrderNumber } from "../value-objects/order-number";
+import { OrderStatus } from "../value-objects/order-status";
 
 export class Order {
   readonly id?: number;
@@ -47,15 +47,23 @@ export class Order {
 
   markAsDone(): void {
     if (!this.status.isActive()) {
-      throw new Error('Cannot mark non-active order as done');
+      throw new Error("Cannot mark non-active order as done");
     }
     this.status = OrderStatus.done();
     this.updatedAt = new Date();
   }
 
+  markAsClosed(): void {
+    if (!this.status.isDone()) {
+      throw new Error("Cannot close an order that is not done");
+    }
+    this.status = OrderStatus.closed();
+    this.updatedAt = new Date();
+  }
+
   markAsCancelled(): void {
     if (!this.status.isActive()) {
-      throw new Error('Cannot mark non-active order as cancelled');
+      throw new Error("Cannot mark non-active order as cancelled");
     }
     this.status = OrderStatus.cancelled();
     this.updatedAt = new Date();

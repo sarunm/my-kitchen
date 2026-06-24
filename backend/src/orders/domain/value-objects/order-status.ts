@@ -1,7 +1,8 @@
 export enum OrderStatusType {
-  ACTIVE = 'active',
-  DONE = 'done',
-  CANCELLED = 'cancelled',
+  ACTIVE = "active",
+  DONE = "done",
+  CLOSED = "closed",
+  CANCELLED = "cancelled",
 }
 
 export class OrderStatus {
@@ -22,6 +23,10 @@ export class OrderStatus {
     return new OrderStatus(OrderStatusType.DONE);
   }
 
+  static closed(): OrderStatus {
+    return new OrderStatus(OrderStatusType.CLOSED);
+  }
+
   static cancelled(): OrderStatus {
     return new OrderStatus(OrderStatusType.CANCELLED);
   }
@@ -38,18 +43,16 @@ export class OrderStatus {
     return this.value === OrderStatusType.DONE;
   }
 
+  isClosed(): boolean {
+    return this.value === OrderStatusType.CLOSED;
+  }
+
   isCancelled(): boolean {
     return this.value === OrderStatusType.CANCELLED;
   }
 
   isTerminal(): boolean {
-    return this.isDone() || this.isCancelled();
-  }
-
-  canTransitionTo(newStatus: OrderStatus): boolean {
-    // Can only transition from active state
-    if (!this.isActive()) return false;
-    return true;
+    return this.isClosed() || this.isCancelled();
   }
 
   equals(other: OrderStatus): boolean {

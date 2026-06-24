@@ -14,60 +14,40 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!number || isNaN(parseInt(number))) {
-      setError("Please enter a valid number");
-      return;
-    }
-
+  const submit = async () => {
+    if (!number) return;
     try {
       setLoading(true);
       setError(null);
-      console.log("Creating order:", { carrier, number: parseInt(number) });
       await orderApi.createOrder(carrier, parseInt(number));
-      console.log("Order created successfully");
       setNumber("");
       onOrderCreated();
     } catch (err) {
-      const errorMsg =
-        err instanceof Error ? err.message : "Failed to create order";
-      console.error("Order creation failed:", errorMsg);
-      setError(errorMsg);
+      setError(err instanceof Error ? err.message : "Failed to create order");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="order-input">
-      <div className="form-group">
-        <div className="carrier-buttons">
-          {(Object.keys(CARRIERS) as CarrierCode[]).map((code) => (
-            <button
-              key={code}
-              type="button"
-              className={`carrier-btn ${carrier === code ? "active" : ""}`}
-              onClick={() => setCarrier(code)}
-              disabled={loading}
-            >
-              <img
-                className="carrier-logo"
-                src={CARRIERS[code].logo}
-                alt={CARRIERS[code].name}
-              />
-              {CARRIERS[code].name}
-            </button>
-          ))}
-        </div>
+    <div className="create-body">
+      <div className="carriers">
+        {(Object.keys(CARRIERS) as CarrierCode[]).map((code) => (
+          <button
+            key={code}
+            type="button"
+            className={`carrier ${carrier === code ? "active" : ""}`}
+            onClick={() => setCarrier(code)}
+            disabled={loading}
+          >
+            <img src={CARRIERS[code].logo} alt={CARRIERS[code].name} />
+            <span>{CARRIERS[code].name}</span>
+          </button>
+        ))}
       </div>
 
-      <div className="numpad-display">
-        {number ? (
-          number
-        ) : (
-          <span className="numpad-placeholder">กรอกหมายเลข</span>
-        )}
+      <div className="display">
+        {number ? number : <span className="ph">กรอกหมายเลข</span>}
       </div>
 
       <div className="numpad">
@@ -75,7 +55,7 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
           <button
             key={d}
             type="button"
-            className="numpad-btn"
+            className="key"
             onClick={() => setNumber((n) => (n + d).slice(0, 4))}
             disabled={loading}
           >
@@ -84,7 +64,7 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
         ))}
         <button
           type="button"
-          className="numpad-btn backspace"
+          className="key back"
           onClick={() => setNumber((n) => n.slice(0, -1))}
           disabled={loading || !number}
         >
@@ -92,15 +72,16 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
         </button>
         <button
           type="button"
-          className="numpad-btn"
+          className="key"
           onClick={() => setNumber((n) => (n + "0").slice(0, 4))}
           disabled={loading}
         >
           0
         </button>
         <button
-          type="submit"
-          className="numpad-btn submit"
+          type="button"
+          className="key submit"
+          onClick={submit}
           disabled={loading || !number}
         >
           {loading ? "…" : "✓"}
@@ -108,6 +89,6 @@ export function OrderInput({ onOrderCreated }: OrderInputProps) {
       </div>
 
       {error && <div className="error">{error}</div>}
-    </form>
+    </div>
   );
 }
